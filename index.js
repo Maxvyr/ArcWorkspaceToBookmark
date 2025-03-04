@@ -2,6 +2,11 @@ const fs = require("fs").promises;
 const path = require("path");
 const os = require("os");
 
+/**
+ * Asynchronously reads JSON data, converts it to HTML, and writes the result to a file.
+ * @returns {Promise<void>} A promise that resolves when the operation is complete.
+ * @throws {Error} If an error occurs during file reading, JSON parsing, conversion, or file writing.
+ */
 async function main() {
   try {
     const data = await readJson();
@@ -13,6 +18,11 @@ async function main() {
   }
 }
 
+/**
+ * Reads and parses a JSON file named "StorableSidebar.json" from either the current directory or a platform-specific library path.
+ * @returns {Object} The parsed JSON data from the file.
+ * @throws {Error} If the file is not found in either location or if there's an issue with the Arc installation directory on Windows.
+ */
 async function readJson() {
   console.log("Reading JSON...");
 
@@ -52,6 +62,11 @@ async function readJson() {
   return data;
 }
 
+/**
+ * Converts JSON data to HTML content, specifically for processing sidebar containers and generating bookmarks.
+ * @param {Object} jsonData - The JSON data containing sidebar information with containers.
+ * @returns {string} HTML content representing the converted bookmarks.
+ */
 function convertJsonToHtml(jsonData) {
   console.log("convertJsonToHtml", jsonData);
   const containers = jsonData.sidebar.containers;
@@ -73,6 +88,12 @@ function convertJsonToHtml(jsonData) {
   return htmlContent;
 }
 
+/**
+ * Processes an array of spaces and categorizes them as pinned or unpinned.
+ * @param {Array} spaces - An array of space objects to be processed.
+ * @returns {Object} An object containing two properties: 'pinned' and 'unpinned',
+ *                   each holding an object with space IDs as keys and their titles as values.
+ */
 function getSpaces(spaces) {
   console.log("Getting spaces...");
 
@@ -106,6 +127,12 @@ function getSpaces(spaces) {
   return spacesNames;
 }
 
+/**
+ * Converts spaces and items into a bookmark structure.
+ * @param {Object} spaces - An object containing pinned spaces with their IDs and names.
+ * @param {Array} items - An array of items to be converted into bookmarks.
+ * @returns {Object} An object with a 'bookmarks' array containing the converted bookmark structure.
+ */
 function convertToBookmarks(spaces, items) {
   console.log("Converting to bookmarks...");
 
@@ -150,6 +177,11 @@ function convertToBookmarks(spaces, items) {
   return bookmarks;
 }
 
+/**
+ * Converts a bookmarks object to HTML format.
+ * @param {Object} bookmarks - An object containing a 'bookmarks' property with an array of bookmark items.
+ * @returns {string} A string containing the HTML representation of the bookmarks.
+ */
 function convertBookmarksToHtml(bookmarks) {
   console.log("Converting bookmarks to HTML...");
 
@@ -180,6 +212,12 @@ function convertBookmarksToHtml(bookmarks) {
   return htmlStr;
 }
 
+/**
+ * Writes HTML content to a file with a dynamically generated filename based on the current date.
+ * @param {string} htmlContent - The HTML content to be written to the file.
+ * @returns {Promise<void>} A promise that resolves when the file has been successfully written.
+ * @throws {Error} If there's an error writing the file.
+ */
 async function writeHtml(htmlContent) {
   console.log("Writing HTML...");
 
